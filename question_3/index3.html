@@ -124,7 +124,7 @@
       }
     ];
   
-      // Merge arrays based on 'id' and 'place_id'
+      // Merging arrays based on 'id' and 'place_id'
       const mergedArray = cafes.map(cafe => ({
         ...cafe,
         ...places.find(place => place.id === cafe.place_id)
