@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joy's Café Search</title>
+    <style>
+        input{
+            margin-left: 60px;
+            width: 90%;
+            height: 30px;
+        }
+        table{
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+        }
+
+        th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center; text-transform: uppercase; color: rgb(84, 3, 53);">All Cafe's List</h2>
+    <div class="box">
+      <input type="text" id="search" placeholder="Search Cafe's here...." oninput="searchArray()">
+    </div>
+    <table id="resultTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Street No</th>
+        <th>Locality</th>
+        <th>Postal Code</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+      </tr>
+    </thead>
+    <tbody id="resultBody"></tbody>
+  </table>
+    <script>
+      const cafes = [
+      { "name": "California Chicken Cafe",
+        "place_id": "12hydbdf76sljfts87sbfis"
+        },
+
+      { "name": "Philz Coffee",
+        "place_id": "urhw3837ehalod7w02b7835"
+        },
+      
+        { "name": "Avenue Bakery Cafe",
+        "place_id": "jahgde7wgdiau8ewsahgosd"
+        },
+        { "name": "Avenue Cafe",
+        "place_id": "skjd86svvfdrsv55svbvf3f"
+        },
+
+        { "name": "Bazaar Cafe",
+        "place_id": "kjk234g4gcvfx8usg1l33pi"
+        },
+
+        { "name": "Ashley's Cafe",
+        "place_id": "12hydbdf76sljfts87sbfis"
+        },
+    
+        { "name": "Hi-Lo Cafe",
+        "place_id": "mjdhgetr4pojfyts22fzfsh"
+        }
+       
+      ];
+  
+      const places = [
+      { "id": "12hydbdf76sljfts87sbfis",
+      "street_no": "1B",
+      "locality": "Macarthur Blvd",
+      "postal_code": "20619",
+      "lat": "38.1781 N",
+      "long": "118.4171 W"
+      },
+      { "id": "jahgde7wgdiau8ewsahgosd",
+      "street_no": "60H",
+      "locality": "Solomos Island Road",
+      "postal_code": "20688",
+      "lat": "36.7783 N",
+      "long": "119.4179 W"
+      },
+      { "id": "kjk234g4gcvfx8usg1l33pi",
+      "street_no": "45250",
+      "locality": "Worth Avenue, Unit A",
+      "postal_code": "20619",
+      "lat": "36.1152",
+      "long": "117.521"
+      },
+      { "id": "saswe3s6yydtdr52hsd72yst",
+      "street_no": "1X",
+      "locality": "Macarthur Blvd",
+      "postal_code": "20687",
+      "lat": "36.7783",
+      "long": "119.4179"
+      },
+      { "id": "skjd86svvfdrsv55svbvf3f",
+      "street_no": "7S",
+      "locality": "Three Notch Road",
+      "postal_code": "20619",
+      "lat": "36.83",
+      "long": "119.6"
+      },
+      { "id": "mjdhgetr4pojfyts22fzfsh",
+      "street_no": "22803",
+      "locality": "Gunston Dr Lexington Park",
+      "postal_code": "20688",
+      "lat": "35.7788",
+      "long": "119.979"
+      },
+      { "id": "urhw3837ehalod7w02b7835",
+      "street_no": "225",
+      "locality": "Macarthur Blvd",
+      "postal_code": "20687",
+      "lat": "35.77813",
+      "long": "119.41791"
+      }
+    ];
+  
+      // Merge arrays based on 'id' and 'place_id'
+      const mergedArray = cafes.map(cafe => ({
+        ...cafe,
+        ...places.find(place => place.id === cafe.place_id)
+      }));
+  
+      // Display merged array in HTML table
+      const resultTable = document.getElementById('resultTable');
+      const resultBody = document.getElementById('resultBody');
+  
+      function displayArray(array) {
+        resultBody.innerHTML = '';
+  
+        array.forEach(item => {
+          const row = resultBody.insertRow();
+  
+          const keysToExclude = ['id', 'place_id'];
+          Object.keys(item).forEach(key => {
+            if (!keysToExclude.includes(key)) {
+              const cell = row.insertCell();
+              cell.textContent = item[key];
+            }
+          });
+        });
+      }
+  
+      function searchArray() {
+        const searchTerm = document.getElementById('search').value.toLowerCase();
+        const filteredArray = mergedArray.filter(item =>
+          item.name.toLowerCase().includes(searchTerm)
+        );
+        displayArray(filteredArray);
+      }
+  
+      displayArray(mergedArray);
+    </script>
+</body>
+</html>
